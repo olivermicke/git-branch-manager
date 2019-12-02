@@ -1,0 +1,12 @@
+{
+  "name": "git-branch-manager",
+  "version": "0.0.0",
+  "description": "Quickly checkout or delete local git branches using a simple CLI.",
+  "main": "index.js",
+  "author": "Oliver Micke <olivermicke@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/olivermicke/git-branch-manager"
+  },
+  "license": "MIT"
+}
