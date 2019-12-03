@@ -1,6 +1,10 @@
 import React from 'react';
-import { render, Text } from 'ink';
+import { Box, render } from 'ink';
 
-export const HelloWorld = () => <Text>Hello World!</Text>;
+import { Branches } from './components/Branches';
 
-render(<HelloWorld />);
+render(
+  <Box>
+    <Branches />
+  </Box>,
+);
