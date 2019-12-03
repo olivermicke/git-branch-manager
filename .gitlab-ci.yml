@@ -1,5 +1,9 @@
 image: node:12.11.1
 
+variables:
+  # https://github.com/chalk/chalk/issues/203
+  FORCE_COLOR: '1'
+
 stages:
   - build
   - test
