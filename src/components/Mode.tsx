@@ -1,23 +1,24 @@
 import React from 'react';
 import { Box, Color, Text } from 'ink';
 
-import { useModeInput } from '../hooks/useModeInput/useModeInput';
+import { AppData } from '../hooks/useAppData';
 
-export const Mode = () => {
-  const [mode, input] = useModeInput();
-
-  return (
-    <Box flexDirection='row'>
-      {mode === 'normal' ? (
-        <Box> </Box>
-      ) : (
-        <>
-          <Color bgGreen={mode === 'checkout'} bgRed={mode === 'delete'} black>
-            <Box flexDirection='row'> {mode} </Box>
-          </Color>
-          <Text>{input || ''}</Text>
-        </>
-      )}
-    </Box>
-  );
+type Props = {
+  input: AppData['input'];
+  mode: AppData['mode'];
 };
+
+export const Mode = ({ input, mode }: Props) => (
+  <Box flexDirection='row'>
+    {mode === 'normal' ? (
+      <Box> </Box>
+    ) : (
+      <>
+        <Color bgGreen={mode === 'checkout'} bgRed={mode === 'delete'} black>
+          <Box flexDirection='row'> {mode} </Box>
+        </Color>
+        <Text> {input || ''}</Text>
+      </>
+    )}
+  </Box>
+);

@@ -1,1 +1,0 @@
-export { useModeInput } from './useModeInput';

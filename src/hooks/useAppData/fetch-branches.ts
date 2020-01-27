@@ -1,11 +1,17 @@
-import { useEffect, useState } from 'react';
-
-import { execFormatted } from '../utils/exec-helper';
+import { daysBetween } from '../../utils/date-helpers';
+import { execFormatted } from '../../utils/exec-helper';
 
 export const BRANCH_INFO_SEPARATOR = '◊';
+const DAYS_UNTIL_INACTIVE = 7;
 const RECENT_BRANCHES_LIMIT = 4;
 
-type Branch = RawBranch & { isCurrent: boolean; isRecent: boolean };
+export type Branch = RawBranch & {
+  isCurrent: boolean;
+  isDeleted: boolean;
+  isInactive: boolean;
+  isRecent: boolean;
+  isSelected: boolean;
+};
 
 type RawBranch = {
   dateOfLastCommit: Date;
@@ -32,29 +38,23 @@ export const getRecentBranchNames = async (): Promise<string[]> =>
     `git reflog | egrep -io "moving from ([^[:space:]]+)" | awk '{ print $3 }' | awk ' !x[$0]++' | egrep -v '^[a-f0-9]{40}$' | head -n${RECENT_BRANCHES_LIMIT}`,
   );
 
-export const useBranchesData = (): Branch[] => {
-  const [branches, setBranches] = useState<Branch[]>([]);
+export const fetchBranches = async (): Promise<Branch[]> => {
+  const [currentBranchName, rawBranches, recentBranchNames] = await Promise.all([
+    getCurrentBranchName(),
+    getRawBranches(),
+    getRecentBranchNames(),
+  ]);
 
-  const fetchAndSetBranches = async (): Promise<void> => {
-    const [currentBranchName, rawBranches, recentBranchNames] = await Promise.all([
-      getCurrentBranchName(),
-      getRawBranches(),
-      getRecentBranchNames(),
-    ]);
-
-    const branches: Branch[] = rawBranches.map(
-      (rawBranch: RawBranch): Branch => ({
-        ...rawBranch,
-        isCurrent: currentBranchName === rawBranch.name,
-        isRecent: recentBranchNames.includes(rawBranch.name),
-      }),
-    );
-    setBranches(branches);
-  };
-
-  useEffect(() => {
-    fetchAndSetBranches();
-  }, []);
+  const branches: Branch[] = rawBranches.map(
+    (rawBranch: RawBranch): Branch => ({
+      ...rawBranch,
+      isCurrent: currentBranchName === rawBranch.name,
+      isDeleted: false,
+      isInactive: daysBetween(rawBranch.dateOfLastCommit, new Date()) > DAYS_UNTIL_INACTIVE,
+      isRecent: recentBranchNames.includes(rawBranch.name),
+      isSelected: false,
+    }),
+  );
 
   return branches;
 };

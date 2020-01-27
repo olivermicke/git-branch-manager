@@ -1,13 +1,6 @@
 import React from 'react';
-import { Box, render } from 'ink';
+import { render } from 'ink';
 
-import { Branches } from './components/Branches';
-import { Mode } from './components/Mode';
+import { App } from './App';
 
-render(
-  <Box flexDirection='column'>
-    <Branches />
-    <Box> </Box>
-    <Mode />
-  </Box>,
-);
+render(<App />);
