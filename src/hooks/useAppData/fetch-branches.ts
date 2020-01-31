@@ -3,7 +3,7 @@ import { execFormatted } from '../../utils/exec-helper';
 
 export const BRANCH_INFO_SEPARATOR = '◊';
 const DAYS_UNTIL_INACTIVE = 7;
-const RECENT_BRANCHES_LIMIT = 4;
+const RECENT_BRANCHES_LIMIT = 2;
 
 export type Branch = RawBranch & {
   isCurrent: boolean;
