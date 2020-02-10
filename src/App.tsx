@@ -17,7 +17,7 @@ export const App = () => {
       <Box> </Box>
       <Mode input={appData.input} mode={appData.mode} />
       <Command command={appData.command} />
-      <Controls command={appData.command} />
+      <Controls hasCommand={!!appData.command} />
     </Box>
   );
 };
