@@ -68,13 +68,12 @@ export const reducer = (state: AppData, action: Action): AppData => {
     case 'confirmed_command': {
       return {
         ...state,
-        command:
-          state.command === null
-            ? null
-            : {
-                ...state.command,
-                shouldBeExecuted: true,
-              },
+        command: state.command
+          ? {
+              ...state.command,
+              shouldBeExecuted: true,
+            }
+          : null,
       };
     }
 
